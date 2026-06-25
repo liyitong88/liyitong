@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="MedEquip Task">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#g)"/>
+  <path d="M40 36h48a8 8 0 0 1 8 8v40a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8V44a8 8 0 0 1 8-8Z" fill="#fff" opacity=".94"/>
+  <path d="M48 52h32M48 64h32M48 76h20" stroke="#0f172a" stroke-width="8" stroke-linecap="round"/>
+  <path d="M77 77l8 8 15-18" fill="none" stroke="#0f766e" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
