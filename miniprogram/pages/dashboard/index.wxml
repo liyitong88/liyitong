@@ -1,0 +1,124 @@
+<view class="page">
+  <view class="top-hero">
+    <view class="hero-orb"></view>
+    <view class="hero-orb2"></view>
+    <view class="hero-orb3"></view>
+    <view class="hero-badge">任务星球 · 今日工作台</view>
+    <view class="hero-title">你好，{{session.username}}</view>
+    <view class="hero-subtitle">把维修、采购、提醒和闭环统一放在一个更顺手的入口里。</view>
+
+    <view class="hero-chip-row">
+      <text class="hero-chip">本地离线可用</text>
+      <text class="hero-chip ghost">手机单手操作</text>
+      <text class="hero-chip ghost">自动提醒排序</text>
+    </view>
+
+    <view class="planet-card">
+      <view class="planet-ring"></view>
+      <view class="planet-orbit"></view>
+      <view class="planet-core">
+        <view class="planet-title">{{focusTitle}}</view>
+        <view class="planet-note">{{focusNote}}</view>
+      </view>
+    </view>
+
+    <view class="mission-strip">
+      <view wx:for="{{missionTiles}}" wx:key="label" class="mission-tile">
+        <view class="mission-value">{{item.value}}</view>
+        <view class="mission-label">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="grid-3">
+    <view class="stat" data-scope="today" bindtap="openScopedTasks">
+      <view class="stat-label">今日待办</view>
+      <view class="stat-value">{{counts.todayTodo}}</view>
+      <view class="stat-desc">今天需要跟进的任务</view>
+    </view>
+    <view class="stat" data-scope="soon" bindtap="openScopedTasks">
+      <view class="stat-label">即将到期</view>
+      <view class="stat-value">{{counts.soon}}</view>
+      <view class="stat-desc">3天内到期或提醒</view>
+    </view>
+    <view class="stat" data-scope="overdue" bindtap="openScopedTasks">
+      <view class="stat-label">超期任务</view>
+      <view class="stat-value">{{counts.overdue}}</view>
+      <view class="stat-desc">需要优先处理</view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">快捷操作</view>
+    <view class="section-subtitle">常用动作放在前面，少点两次。</view>
+    <view class="grid-2">
+      <button class="btn-primary" bindtap="createTask">+ 新增任务</button>
+      <button class="btn-ghost" bindtap="goToTasks">查看全部任务</button>
+      <button class="btn-ghost" bindtap="goToReports">生成月报</button>
+      <button class="btn-ghost" bindtap="goToProfile">个人中心</button>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">
+      <text>提醒区</text>
+      <text class="muted">按优先级排序</text>
+    </view>
+    <block wx:if="{{reminders.length}}">
+      <view wx:for="{{reminders}}" wx:key="id" class="task-item" data-id="{{item.id}}" bindtap="openTask">
+        <view class="task-head">
+          <view>
+            <view class="task-title">{{item.title}}</view>
+            <view class="task-meta">{{item.department}} · {{item.owner}} · 截止 {{item.dueDate || "-"}}</view>
+          </view>
+          <text class="tag {{item.badgeClass}}">{{item.badge}}</text>
+        </view>
+        <view class="task-tags">
+          <text class="tag">{{item.type}}</text>
+          <text class="tag">{{item.status}}</text>
+        </view>
+      </view>
+    </block>
+    <view wx:else class="empty">当前没有需要重点提醒的任务。</view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">
+      <text>最近任务</text>
+      <text class="muted">最近创建的 6 条</text>
+    </view>
+    <block wx:if="{{recentTasks.length}}">
+      <view wx:for="{{recentTasks}}" wx:key="id" class="task-item" data-id="{{item.id}}" bindtap="openTask">
+        <view class="task-head">
+          <view>
+            <view class="task-title">{{item.title}}</view>
+            <view class="task-meta">{{item.department}} · {{item.owner}}</view>
+          </view>
+          <text class="tag {{item.badgeClass}}">{{item.badge}}</text>
+        </view>
+        <view class="task-tags">
+          <text class="tag">{{item.type}}</text>
+          <text class="tag">{{item.status}}</text>
+          <text wx:if="{{item.dueDate}}" class="tag warn">到期 {{item.dueText}}</text>
+        </view>
+      </view>
+    </block>
+    <view wx:else class="empty">先点“新增任务”创建第一条吧。</view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">最近处理记录</view>
+    <block wx:if="{{latestLogs.length}}">
+      <view wx:for="{{latestLogs}}" wx:key="id" class="task-item" style="margin-bottom:12rpx;">
+        <view class="task-head">
+          <view>
+            <view class="task-title" style="font-size:28rpx;">{{item.taskTitle}}</view>
+            <view class="task-meta">{{item.operator}} · {{item.logTime}}</view>
+          </view>
+        </view>
+        <view class="muted" style="margin-top:10rpx;">{{item.logContent}}</view>
+      </view>
+    </block>
+    <view wx:else class="empty">还没有处理记录。</view>
+  </view>
+</view>

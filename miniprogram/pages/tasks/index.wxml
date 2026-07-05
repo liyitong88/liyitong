@@ -1,0 +1,90 @@
+<view class="page">
+  <view class="top-hero">
+    <view class="hero-orb"></view>
+    <view class="hero-orb2"></view>
+    <view class="hero-orb3"></view>
+    <view class="hero-badge">任务列表</view>
+    <view class="hero-title">把所有任务放在同一个入口里</view>
+    <view class="hero-subtitle">支持搜索、筛选和排序。超期、今日到期会自动往前排。</view>
+    <view class="hero-chip-row">
+      <text class="hero-chip">搜索 + 筛选</text>
+      <text class="hero-chip ghost">优先级排序</text>
+      <text class="hero-chip ghost">一键新增</text>
+    </view>
+    <view class="summary-band">
+      <view class="summary-panel">
+        <view class="summary-label">{{leadTitle}}</view>
+        <view class="summary-value">{{leadNote}}</view>
+        <view class="summary-sub">点击任务即可进入详情</view>
+      </view>
+      <view class="summary-panel">
+        <view class="summary-label">当前状态</view>
+        <view class="summary-value">{{scope}}</view>
+        <view class="summary-sub">{{keyword ? keyword : '未输入搜索词'}}</view>
+      </view>
+    </view>
+    <view class="mission-strip" style="margin-top:16rpx;">
+      <view wx:for="{{metrics}}" wx:key="label" class="mission-tile">
+        <view class="mission-value">{{item.value}}</view>
+        <view class="mission-label">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card sticky-search">
+    <view class="field" style="margin-bottom:12rpx;">
+      <text class="field-label">搜索设备、编号或标题</text>
+      <input class="input" value="{{keyword}}" placeholder="输入关键词" bindinput="onKeywordInput" />
+    </view>
+    <view class="grid-2">
+      <picker mode="selector" range="{{['全部','今日待办','今日提醒','3天内到期','超期任务']}}" bindchange="onScopeChange">
+        <view class="picker-field">范围：{{scope}} ▾</view>
+      </picker>
+      <picker mode="selector" range="{{statusOptions}}" value="{{statusIndex}}" bindchange="onStatusChange">
+        <view class="picker-field">状态：{{statusOptions[statusIndex]}} ▾</view>
+      </picker>
+      <picker mode="selector" range="{{typeOptions}}" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view class="picker-field">类型：{{typeOptions[typeIndex]}} ▾</view>
+      </picker>
+      <picker mode="selector" range="{{deptOptions}}" value="{{deptIndex}}" bindchange="onDeptChange">
+        <view class="picker-field">科室：{{deptOptions[deptIndex]}} ▾</view>
+      </picker>
+      <picker mode="selector" range="{{ownerOptions}}" value="{{ownerIndex}}" bindchange="onOwnerChange">
+        <view class="picker-field">负责人：{{ownerOptions[ownerIndex]}} ▾</view>
+      </picker>
+      <button class="btn-ghost" bindtap="clearFilters">清空筛选</button>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">
+      <text>任务结果</text>
+      <text class="muted">{{filteredTasks.length}} 条</text>
+    </view>
+    <view class="tabs-inline" style="margin-bottom:16rpx;">
+      <button class="pill" bindtap="goHome">回首页</button>
+      <button class="pill active">当前任务</button>
+      <button class="pill" bindtap="goReports">看报告</button>
+      <button class="pill" bindtap="goProfile">我的</button>
+    </view>
+    <button class="btn-primary" style="margin-bottom:18rpx;" bindtap="openCreate">+ 新增任务</button>
+    <block wx:if="{{filteredTasks.length}}">
+      <view wx:for="{{filteredTasks}}" wx:key="id" class="task-item" data-id="{{item.id}}" bindtap="openDetail">
+        <view class="task-head">
+          <view>
+            <view class="task-title">{{item.title}}</view>
+            <view class="task-meta">{{item.department}} · {{item.owner}} · {{item.equipmentName}}</view>
+          </view>
+          <text class="tag {{item.badgeClass}}">{{item.badge}}</text>
+        </view>
+        <view class="task-tags">
+          <text class="tag">{{item.type}}</text>
+          <text class="tag">{{item.status}}</text>
+          <text class="tag">{{item.equipmentCode || '无编号'}}</text>
+        </view>
+        <view class="task-meta" style="margin-top:12rpx;">编号：{{item.taskCode || ''}}</view>
+      </view>
+    </block>
+    <view wx:else class="empty">没有符合条件的任务，试试放宽筛选。</view>
+  </view>
+</view>

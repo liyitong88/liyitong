@@ -1,0 +1,77 @@
+<view class="page">
+  <view class="top-hero">
+    <view class="hero-orb"></view>
+    <view class="hero-orb2"></view>
+    <view class="hero-orb3"></view>
+    <view class="hero-badge">个人中心</view>
+    <view class="hero-title">{{session.username}}</view>
+    <view class="hero-subtitle">当前角色：{{session.role === 'admin' ? '管理员' : '普通用户'}}</view>
+    <view class="hero-chip-row">
+      <text class="hero-chip">本地保存</text>
+      <text class="hero-chip ghost">备份导入</text>
+      <text class="hero-chip ghost">管理员可控</text>
+    </view>
+    <view class="profile-hero-grid">
+      <view class="profile-hero-tile">
+        <view class="profile-hero-value">{{stats.total}}</view>
+        <view class="profile-hero-label">总任务</view>
+      </view>
+      <view class="profile-hero-tile">
+        <view class="profile-hero-value">{{stats.active}}</view>
+        <view class="profile-hero-label">进行中</view>
+      </view>
+      <view class="profile-hero-tile">
+        <view class="profile-hero-value">{{stats.done}}</view>
+        <view class="profile-hero-label">已完成</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">常用操作</view>
+    <view class="grid-2">
+      <button class="btn-primary" bindtap="exportExcel">导出 Excel</button>
+      <button class="btn-ghost" bindtap="exportBackup">导出备份</button>
+      <button class="btn-ghost" bindtap="importBackup">导入备份</button>
+      <button class="btn-ghost" bindtap="resetDemo">恢复示例数据</button>
+    </view>
+    <button class="btn-danger" style="margin-top:16rpx;" bindtap="logout">退出登录</button>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">云同步</view>
+    <view class="section-subtitle">填一个你自己的同步接口地址，之后就能跨手机拉取和推送数据。</view>
+    <view class="field">
+      <text class="field-label">同步地址</text>
+      <input class="input" value="{{syncConfig.endpoint}}" data-field="endpoint" bindinput="onSyncInput" placeholder="https://your-domain.com/sync" />
+    </view>
+    <view class="field">
+      <text class="field-label">访问令牌</text>
+      <input class="input" value="{{syncConfig.token}}" data-field="token" bindinput="onSyncInput" placeholder="可选" />
+    </view>
+    <view class="sync-actions">
+      <button class="btn-ghost" bindtap="saveSyncConfig">保存配置</button>
+      <button class="btn-primary" bindtap="pushSync">上传到云端</button>
+      <button class="btn-ghost" bindtap="pullSync">从云端下载</button>
+      <view class="sync-state">{{syncState}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{adminMode}}" class="section-card">
+    <view class="section-title">新增账号</view>
+    <view class="field"><text class="field-label">用户名</text><input class="input" value="{{username}}" data-field="username" bindinput="onInput" placeholder="新账号" /></view>
+    <view class="field"><text class="field-label">密码</text><input class="input" password value="{{password}}" data-field="password" bindinput="onInput" placeholder="初始密码" /></view>
+    <view class="field">
+      <text class="field-label">角色</text>
+      <picker mode="selector" range="{{['user','admin']}}" value="{{role === 'admin' ? 1 : 0}}" bindchange="onRoleChange">
+        <view class="picker-field">{{role}} ▾</view>
+      </picker>
+    </view>
+    <button class="btn-primary" bindtap="addUser">添加账号</button>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">使用说明</view>
+    <view class="muted">这个版本已经做成可直接在微信开发者工具里打开的小程序结构。后续如果你要上线到线上环境，只需要再补正式 AppID 和审核配置。</view>
+  </view>
+</view>

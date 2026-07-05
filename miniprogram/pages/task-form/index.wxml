@@ -1,0 +1,64 @@
+<view class="page">
+  <view class="top-hero">
+    <view class="hero-orb"></view>
+    <view class="hero-orb2"></view>
+    <view class="hero-orb3"></view>
+    <view class="hero-badge">{{mode === 'complete' ? '完成闭环' : (taskId ? '编辑任务' : '新增任务')}}</view>
+    <view class="hero-title">{{mode === 'complete' ? '把处理结果一次性写完整' : '把任务一口气填完'}}</view>
+    <view class="hero-subtitle">尽量少跳页，常用字段直接放在一屏内。</view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">基础信息</view>
+    <view wx:if="{{mode !== 'complete'}}">
+      <view class="field"><text class="field-label">任务标题</text><input class="input" value="{{title}}" data-field="title" bindinput="onInput" placeholder="例如：CT 报警排查" /></view>
+      <view class="field"><text class="field-label">任务类型</text><picker mode="selector" range="{{taskTypes}}" value="{{typeIndex}}" bindchange="onTypeChange"><view class="picker-field">{{taskTypes[typeIndex]}} ▾</view></picker></view>
+      <view class="field"><text class="field-label">当前状态</text><picker mode="selector" range="{{taskStatuses}}" value="{{statusIndex}}" bindchange="onStatusChange"><view class="picker-field">{{taskStatuses[statusIndex]}} ▾</view></picker></view>
+      <view class="field"><text class="field-label">涉及科室</text><input class="input" value="{{department}}" data-field="department" bindinput="onInput" placeholder="例如：影像科" /></view>
+      <view class="field"><text class="field-label">负责人</text><input class="input" value="{{owner}}" data-field="owner" bindinput="onInput" placeholder="例如：张工" /></view>
+      <view class="form-row">
+        <view class="field"><text class="field-label">设备名称</text><input class="input" value="{{equipmentName}}" data-field="equipmentName" bindinput="onInput" placeholder="设备名称" /></view>
+        <view class="field"><text class="field-label">设备编号</text><input class="input" value="{{equipmentCode}}" data-field="equipmentCode" bindinput="onInput" placeholder="设备编号" /></view>
+      </view>
+      <view class="field"><text class="field-label">问题描述</text><textarea class="textarea" value="{{description}}" data-field="description" bindinput="onInput" placeholder="详细描述当前情况"></textarea></view>
+      <view class="form-row">
+        <view class="field"><text class="field-label">创建日期</text><picker mode="date" value="{{createDate}}" bindchange="onInput" data-field="createDate"><view class="picker-field">{{createDate}} ▾</view></picker></view>
+        <view class="field"><text class="field-label">截止日期</text><picker mode="date" value="{{dueDate}}" bindchange="onInput" data-field="dueDate"><view class="picker-field">{{dueDate || '请选择'}} ▾</view></picker></view>
+      </view>
+      <view class="field"><text class="field-label">提醒日期</text><picker mode="date" value="{{remindDate}}" bindchange="onInput" data-field="remindDate"><view class="picker-field">{{remindDate || '请选择'}} ▾</view></picker></view>
+    </view>
+
+    <view wx:if="{{mode === 'complete'}}">
+      <view class="field"><text class="field-label">完成日期</text><picker mode="date" value="{{finishDate}}" bindchange="onInput" data-field="finishDate"><view class="picker-field">{{finishDate}} ▾</view></picker></view>
+      <view class="field"><text class="field-label">处理结果</text><textarea class="textarea" value="{{result}}" data-field="result" bindinput="onInput" placeholder="例如：已更换配件并恢复正常"></textarea></view>
+      <view class="field"><text class="field-label">是否恢复正常</text><input class="input" value="{{remark}}" data-field="remark" bindinput="onInput" placeholder="例如：已恢复正常" /></view>
+      <view class="form-row">
+        <view class="field"><text class="field-label">费用金额</text><input class="input" type="number" value="{{cost}}" data-field="cost" bindinput="onInput" placeholder="0" /></view>
+        <view class="field"><text class="field-label">维修单位</text><input class="input" value="{{vendor}}" data-field="vendor" bindinput="onInput" placeholder="维修单位" /></view>
+      </view>
+      <view class="field"><text class="field-label">验收人</text><input class="input" value="{{acceptancePerson}}" data-field="acceptancePerson" bindinput="onInput" placeholder="验收人" /></view>
+    </view>
+  </view>
+
+  <view class="section-card" wx:if="{{mode !== 'complete'}}">
+    <view class="section-title">附件</view>
+    <button class="btn-ghost" bindtap="chooseImage">选择图片附件</button>
+    <view wx:if="{{filePath}}" class="task-item" style="margin-top:16rpx;">
+      <view class="task-title" style="font-size:28rpx;">{{fileName}}</view>
+      <view class="muted">已选择本地图片，保存后会作为附件记录。</view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">备注</view>
+    <view class="field" style="margin-bottom:0;">
+      <textarea class="textarea" value="{{remark}}" data-field="remark" bindinput="onInput" placeholder="填写补充信息、联系人或注意事项"></textarea>
+    </view>
+    <view wx:if="{{error}}" class="muted" style="color:#b91c1c;margin-top:12rpx;">{{error}}</view>
+  </view>
+
+  <view class="footer-actions">
+    <button class="btn-ghost" style="flex:1;" bindtap="backToList">返回</button>
+    <button class="btn-primary" style="flex:1;" bindtap="submit">保存</button>
+  </view>
+</view>

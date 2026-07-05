@@ -1,0 +1,25 @@
+{
+  "description": "医学装备科任务闭环管理系统",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minify": true,
+    "enhance": true,
+    "compileHotReLoad": true,
+    "checkSiteMap": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.4.10",
+  "appid": "touristappid",
+  "projectname": "med-equip-task-mini",
+  "miniprogramRoot": "miniprogram/",
+  "condition": {
+    "search": {
+      "list": []
+    }
+  }
+}

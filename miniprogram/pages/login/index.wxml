@@ -1,0 +1,29 @@
+<view class="page">
+  <view class="top-hero">
+    <view class="hero-orb"></view>
+    <view class="hero-orb2"></view>
+    <view class="hero-orb3"></view>
+    <view class="hero-badge">医学装备科任务闭环管理</view>
+    <view class="hero-title">登录后即可查看任务、闭环和月报</view>
+    <view class="hero-subtitle">默认账号：admin / admin123。你也可以后面在个人中心新增普通账号。</view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">欢迎回来</view>
+    <view class="field">
+      <text class="field-label">账号</text>
+      <input class="input" value="{{username}}" placeholder="请输入账号" bindinput="onUsernameInput" />
+    </view>
+    <view class="field">
+      <text class="field-label">密码</text>
+      <input class="input" password value="{{password}}" placeholder="请输入密码" bindinput="onPasswordInput" />
+    </view>
+    <view wx:if="{{error}}" class="muted" style="color:#b91c1c;margin-bottom:16rpx;">{{error}}</view>
+    <button class="btn-primary" loading="{{loading}}" bindtap="handleLogin">立即进入</button>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">小提示</view>
+    <view class="muted">登录后支持本地离线使用，数据保存在手机或当前开发环境里，不依赖同一个 WiFi。</view>
+  </view>
+</view>
